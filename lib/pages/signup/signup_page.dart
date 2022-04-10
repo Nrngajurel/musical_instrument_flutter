@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:music_rental_flutter/widgets/my_button.dart';
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
+
+  @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  bool visibility = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +40,6 @@ class SignupPage extends StatelessWidget {
                     ),
                   ),
                   TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      hintText: "Password",
-                    ),
-                  ),
-                  TextFormField(
                     decoration: const InputDecoration(
                       hintText: "Address",
                     ),
@@ -46,6 +47,22 @@ class SignupPage extends StatelessWidget {
                   TextFormField(
                     decoration: const InputDecoration(
                       hintText: "Phone",
+                    ),
+                  ),
+                  TextFormField(
+                    obscureText: visibility,
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            visibility = !visibility;
+                          });
+                        },
+                        icon: Icon(
+                          visibility ? Icons.visibility : Icons.visibility_off,
+                        ),
+                      ),
                     ),
                   ),
                 ],
