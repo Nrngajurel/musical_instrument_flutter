@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_rental_flutter/pages/signup/signup_page.dart';
 
 import 'pages/welcome/welcome_page.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Music Rental',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const WelcomePage(),
+      home: const SignupPage(),
     );
   }
 }
