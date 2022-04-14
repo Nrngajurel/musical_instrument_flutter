@@ -15,7 +15,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-  bool visibility = false;
+  bool visibility = true;
   @override
   Widget build(BuildContext context) {
     LoginProvider loginProvider = Provider.of<LoginProvider>(context);
@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                       });
                     },
                     icon: Icon(
-                      visibility ? Icons.visibility : Icons.visibility_off,
+                      visibility ? Icons.visibility_off : Icons.visibility,
                     ),
                   ),
                 ),

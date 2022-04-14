@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:music_rental_flutter/pages/login/login_page.dart';
+import 'package:music_rental_flutter/pages/signup/signup_page.dart';
 import 'package:music_rental_flutter/widgets/my_button.dart';
 
 class EndPart extends StatelessWidget {
@@ -9,7 +11,12 @@ class EndPart extends StatelessWidget {
     return Column(
       children: [
         MyButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+            );
+          },
           btnText: "LOG IN",
           color: const [Color(0xff027f47), Color(0xff01a95c)],
         ),
@@ -28,7 +35,12 @@ class EndPart extends StatelessWidget {
           height: 20,
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SignupPage()),
+            );
+          },
           child: const Text(
             "SIGN UP",
             style: TextStyle(color: Color(0xff797b7a)),

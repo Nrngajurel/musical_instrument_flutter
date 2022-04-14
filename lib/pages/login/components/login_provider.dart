@@ -46,7 +46,7 @@ class LoginProvider with ChangeNotifier {
           ),
         );
       } else {
-        storage.write(key: "userToken", value: resMap["token"]);
+        await storage.write(key: "userToken", value: resMap["token"]);
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(

@@ -6,6 +6,7 @@ import 'package:music_rental_flutter/network/network_service.dart';
 import 'package:music_rental_flutter/pages/homepage/user/user_home.dart';
 import 'package:music_rental_flutter/pages/login/components/login_provider.dart';
 import 'package:music_rental_flutter/pages/signup/components/signup_auth-provider.dart';
+import 'package:music_rental_flutter/pages/signup/signup_page.dart';
 import 'package:music_rental_flutter/pages/static/static_values.dart';
 import 'package:music_rental_flutter/pages/verification/components/verification_provider.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
   }
 
   Future<bool> verifyToken() async {
-    String jwt = jwtOrEmpty as String;
+    String jwt = await jwtOrEmpty;
     if (jwt == "") return false;
     final response = await NetworkService.sendRequest(
       requestType: RequestType.post,
@@ -75,8 +76,16 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home:
-            verifyToken() as bool ? const UserHomePage() : const WelcomePage(),
+        home: FutureBuilder<bool>(
+          future: verifyToken(),
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            if (snapshot.data == false) {
+              return const WelcomePage();
+            } else {
+              return const UserHomePage();
+            }
+          },
+        ),
       ),
     );
   }
