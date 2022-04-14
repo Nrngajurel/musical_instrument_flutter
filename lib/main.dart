@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'pages/welcome/welcome_page.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 

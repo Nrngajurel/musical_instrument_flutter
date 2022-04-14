@@ -17,7 +17,7 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController number = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  bool visibility = false;
+  bool visibility = true;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class _SignupPageState extends State<SignupPage> {
                           });
                         },
                         icon: Icon(
-                          visibility ? Icons.visibility : Icons.visibility_off,
+                          visibility ? Icons.visibility_off : Icons.visibility,
                         ),
                       ),
                     ),
@@ -86,20 +86,24 @@ class _SignupPageState extends State<SignupPage> {
               ),
               Column(
                 children: [
-                  MyButton(
-                    onPressed: () {
-                      signupAuthProvider.signupValidation(
-                        fullName: name,
-                        email: email,
-                        address: address,
-                        number: number,
-                        password: password,
-                        context: context,
-                      );
-                    },
-                    btnText: "SIGN UP",
-                    color: const [Color(0xff027f47), Color(0xff01a95c)],
-                  ),
+                  signupAuthProvider.loading == false
+                      ? MyButton(
+                          onPressed: () {
+                            signupAuthProvider.signupValidation(
+                              fullName: name,
+                              email: email,
+                              address: address,
+                              number: number,
+                              password: password,
+                              context: context,
+                            );
+                          },
+                          btnText: "SIGN UP",
+                          color: const [Color(0xff027f47), Color(0xff01a95c)],
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        ),
                   const SizedBox(
                     height: 20,
                   ),
