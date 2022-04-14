@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_rental_flutter/pages/login/login_page.dart';
 import 'package:music_rental_flutter/pages/signup/components/signup_auth-provider.dart';
 import 'package:music_rental_flutter/widgets/my_button.dart';
 import 'package:provider/provider.dart';
@@ -109,9 +110,18 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text("Already have an account?\t\t"),
-                      Text("LOG IN"),
+                    children: [
+                      const Text("Already have an account?\t\t"),
+                      GestureDetector(
+                        onTap: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage()),
+                          ),
+                        },
+                        child: const Text("LOG IN"),
+                      ),
                     ],
                   ),
                 ],

@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:music_rental_flutter/pages/login/components/login_provider.dart';
 import 'package:music_rental_flutter/widgets/my_button.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   bool visibility = false;
   @override
   Widget build(BuildContext context) {
+    LoginProvider loginProvider = Provider.of<LoginProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -33,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: 30,
               ),
               TextFormField(
+                controller: email,
                 decoration: const InputDecoration(
                   hintText: "Email",
                 ),
@@ -42,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               TextFormField(
                 obscureText: visibility,
+                controller: password,
                 decoration: InputDecoration(
                   hintText: "Password",
                   suffixIcon: IconButton(
@@ -51,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                       });
                     },
                     icon: Icon(
-                      visibility ? Icons.visibility_off : Icons.visibility,
+                      visibility ? Icons.visibility : Icons.visibility_off,
                     ),
                   ),
                 ),
@@ -59,11 +66,18 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 30,
               ),
-              MyButton(
-                onPressed: () {},
-                btnText: "LOGIN",
-                color: const [Color(0xff027f47), Color(0xff01a95c)],
-              )
+              loginProvider.loading == false
+                  ? MyButton(
+                      onPressed: () {
+                        loginProvider.loginUser(
+                            email: email, password: password, context: context);
+                      },
+                      btnText: "LOGIN",
+                      color: const [Color(0xff027f47), Color(0xff01a95c)],
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    ),
             ],
           ),
         ),

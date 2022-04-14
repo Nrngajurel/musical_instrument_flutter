@@ -1,10 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:music_rental_flutter/network/network_service.dart';
+import 'package:music_rental_flutter/pages/homepage/user/user_home.dart';
+import 'package:music_rental_flutter/pages/login/components/login_provider.dart';
 import 'package:music_rental_flutter/pages/signup/components/signup_auth-provider.dart';
-import 'package:music_rental_flutter/pages/signup/signup_page.dart';
+import 'package:music_rental_flutter/pages/static/static_values.dart';
 import 'package:music_rental_flutter/pages/verification/components/verification_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/welcome/welcome_page.dart';
+
+final storage = FlutterSecureStorage();
 
 void main() async {
   runApp(const MyApp());
@@ -12,6 +20,30 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  Future<String> get jwtOrEmpty async {
+    var jwt = await storage.read(key: "userToken");
+    if (jwt == null) return "";
+    return jwt;
+  }
+
+  Future<bool> verifyToken() async {
+    String jwt = jwtOrEmpty as String;
+    if (jwt == "") return false;
+    final response = await NetworkService.sendRequest(
+      requestType: RequestType.post,
+      url: StaticValues.apiUrlUser + "/token",
+      body: {"token": jwt},
+    );
+    final resultMap = json.decode(response!.body);
+    if (resultMap["success"] == 0) {
+      return false;
+    } else if (resultMap["success"] == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   // This widget is the root of your application.
   @override
@@ -23,6 +55,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => VerificationProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LoginProvider(),
         ),
       ],
       child: MaterialApp(
@@ -40,7 +75,8 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: const SignupPage(),
+        home:
+            verifyToken() as bool ? const UserHomePage() : const WelcomePage(),
       ),
     );
   }
