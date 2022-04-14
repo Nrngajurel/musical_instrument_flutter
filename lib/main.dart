@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:music_rental_flutter/pages/signup/components/signup_auth-provider.dart';
 import 'package:music_rental_flutter/pages/signup/signup_page.dart';
+import 'package:music_rental_flutter/pages/verification/components/verification_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/welcome/welcome_page.dart';
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => SignupAuthProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => VerificationProvider(),
         ),
       ],
       child: MaterialApp(

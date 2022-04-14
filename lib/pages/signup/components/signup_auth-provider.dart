@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:music_rental_flutter/network/network_service.dart';
 import 'package:music_rental_flutter/pages/static/static_values.dart';
 import 'package:music_rental_flutter/pages/verification/verification_page.dart';
@@ -89,10 +88,10 @@ class SignupAuthProvider with ChangeNotifier {
 
       final mapVal = json.decode(response!.body);
       if (mapVal.isNotEmpty) {
-        if (mapVal["success"] == "2") {
+        if (mapVal["success"] == 2 || mapVal["success"] == 0) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Email already in use"),
+            SnackBar(
+              content: Text(mapVal["message"]),
             ),
           );
           loading = false;
@@ -105,7 +104,8 @@ class SignupAuthProvider with ChangeNotifier {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => const VerificationPage()));
+                  builder: (BuildContext context) =>
+                      VerificationPage(mapVal["data"])));
           loading = false;
         }
       }
