@@ -24,6 +24,12 @@ class BuildDrawer extends StatelessWidget {
           ),
           const ListTile(
             leading: Icon(
+              Icons.home,
+            ),
+            title: Text("Home"),
+          ),
+          const ListTile(
+            leading: Icon(
               Icons.person,
             ),
             title: Text("Profile"),
@@ -31,12 +37,6 @@ class BuildDrawer extends StatelessWidget {
           const ListTile(
             leading: Icon(Icons.shopping_cart),
             title: Text("Cart"),
-          ),
-          const ListTile(
-            leading: Icon(
-              Icons.favorite,
-            ),
-            title: Text("Favourite"),
           ),
           const ListTile(
             leading: Icon(
