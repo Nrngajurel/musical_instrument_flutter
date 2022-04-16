@@ -47,7 +47,7 @@ class _UserHomePageState extends State<UserHomePage> {
               children: [
                 const ProductHeader(),
                 if (CatalogModel.products.isNotEmpty)
-                  const ProductList().expand()
+                  const ProductList().py16().expand()
                 else
                   const CircularProgressIndicator().centered().expand(),
               ],

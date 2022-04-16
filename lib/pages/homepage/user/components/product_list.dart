@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_rental_flutter/pages/homepage/user/components/catalog_item.dart';
+import 'package:music_rental_flutter/pages/homepage/user/home_detail_page.dart';
 import 'package:music_rental_flutter/pages/models/product.dart';
 
 class ProductList extends StatelessWidget {
@@ -12,8 +13,18 @@ class ProductList extends StatelessWidget {
       itemCount: CatalogModel.products.length,
       itemBuilder: (context, index) {
         final product = CatalogModel.products[index];
-        return CatalogItem(
-          product: product,
+        return InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeDetailPage(product: product),
+              ),
+            );
+          },
+          child: CatalogItem(
+            product: product,
+          ),
         );
       },
     );
