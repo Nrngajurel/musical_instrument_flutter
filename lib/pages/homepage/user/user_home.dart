@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:music_rental_flutter/main.dart';
-import 'package:music_rental_flutter/pages/login/login_page.dart';
+import 'package:flutter/services.dart';
+import 'package:music_rental_flutter/pages/homepage/user/components/product_list.dart';
+import 'package:music_rental_flutter/pages/homepage/user/components/user_home_header.dart';
 import 'package:music_rental_flutter/pages/models/product.dart';
+import 'package:music_rental_flutter/pages/static/static_values.dart';
 import 'package:music_rental_flutter/widgets/build_drawer.dart';
-import 'package:music_rental_flutter/widgets/item_widget.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({Key? key}) : super(key: key);
@@ -14,38 +18,41 @@ class UserHomePage extends StatefulWidget {
 
 class _UserHomePageState extends State<UserHomePage> {
   @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    final productJson =
+        await rootBundle.loadString("assets/files/products.json");
+    var decodedData = jsonDecode(productJson);
+    var productsData = decodedData["products"];
+    CatalogModel.products = List.from(productsData)
+        .map<Product>((product) => Product.fromMap(product))
+        .toList();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const BuildDrawer(),
-      appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.black,
-        ),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        actions: [
-          IconButton(
-            onPressed: () {
-              storage.deleteAll();
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => const LoginPage()));
-            },
-            icon: const Icon(
-              Icons.exit_to_app,
+        backgroundColor: StaticValues.creamColor,
+        drawer: const BuildDrawer(),
+        body: SafeArea(
+          child: Container(
+            padding: Vx.m32,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const ProductHeader(),
+                if (CatalogModel.products.isNotEmpty)
+                  const ProductList().expand()
+                else
+                  const CircularProgressIndicator().centered().expand(),
+              ],
             ),
           ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: ListView.builder(
-            itemCount: CatalogModel.items.length,
-            itemBuilder: (context, index) {
-              return ItemWidget(product: CatalogModel.items[index]);
-            }),
-      ),
-    );
+        ));
   }
 }

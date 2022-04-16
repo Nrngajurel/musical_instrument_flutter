@@ -2,16 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:music_rental_flutter/network/network_service.dart';
 import 'package:music_rental_flutter/pages/homepage/user/user_home.dart';
 import 'package:music_rental_flutter/pages/login/components/login_provider.dart';
 import 'package:music_rental_flutter/pages/signup/components/signup_auth-provider.dart';
-import 'package:music_rental_flutter/pages/signup/signup_page.dart';
 import 'package:music_rental_flutter/pages/static/static_values.dart';
 import 'package:music_rental_flutter/pages/verification/components/verification_provider.dart';
 import 'package:provider/provider.dart';
-
-import 'pages/welcome/welcome_page.dart';
 
 final storage = FlutterSecureStorage();
 
@@ -65,6 +63,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Music Rental',
         theme: ThemeData(
+          fontFamily: GoogleFonts.poppins().fontFamily,
           // This is the theme of your application.
           //
           // Try running your application with "flutter run". You'll see the
@@ -74,18 +73,20 @@ class MyApp extends StatelessWidget {
           // or simply save your changes to "hot reload" in a Flutter IDE).
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.deepPurple,
         ),
-        home: FutureBuilder<bool>(
-          future: verifyToken(),
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-            if (snapshot.data == false) {
-              return const WelcomePage();
-            } else {
-              return const UserHomePage();
-            }
-          },
-        ),
+        home:
+            // FutureBuilder<bool>(
+            //   future: verifyToken(),
+            //   builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            //     if (snapshot.data == false) {
+            //       return const WelcomePage();
+            //     } else {
+            //       return const UserHomePage();
+            //     }
+            //   },
+            // ),
+            const UserHomePage(),
       ),
     );
   }

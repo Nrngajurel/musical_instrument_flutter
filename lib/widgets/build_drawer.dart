@@ -19,7 +19,7 @@ class BuildDrawer extends StatelessWidget {
             accountName: Text("Shanand Shrestha"),
             accountEmail: Text("shanandshrestha@gmail.com"),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: AssetImage("images/logo.png"),
+              backgroundImage: AssetImage("assets/images/logo.png"),
             ),
           ),
           const ListTile(

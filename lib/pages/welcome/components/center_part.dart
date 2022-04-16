@@ -8,7 +8,7 @@ class CenterPart extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Image.asset(
-        "images/logo.png",
+        "assets/images/logo.png",
       ),
     );
   }

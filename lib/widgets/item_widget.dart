@@ -3,9 +3,7 @@ import 'package:music_rental_flutter/pages/models/product.dart';
 
 class ItemWidget extends StatelessWidget {
   final Product product;
-  const ItemWidget({Key? key, required this.product})
-      : assert(product != null),
-        super(key: key);
+  const ItemWidget({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +18,7 @@ class ItemWidget extends StatelessWidget {
         trailing: Text(
           "Rs." + product.price.toString(),
           textScaleFactor: 1.5,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.deepPurple,
             fontWeight: FontWeight.bold,
           ),
