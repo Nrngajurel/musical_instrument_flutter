@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:music_rental_flutter/pages/models/product.dart';
 import 'package:music_rental_flutter/pages/static/static_values.dart';
+import 'package:music_rental_flutter/widgets/add_to_cart.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class HomeDetailPage extends StatelessWidget {
@@ -25,16 +26,8 @@ class HomeDetailPage extends StatelessWidget {
           buttonPadding: EdgeInsets.zero,
           children: [
             "\$${product.price}".text.bold.xl2.red800.make(),
-            ElevatedButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(StaticValues.darkBluishColor),
-                shape: MaterialStateProperty.all(
-                  const StadiumBorder(),
-                ),
-              ),
-              child: "Add to cart".text.make(),
+            AddToCart(
+              catalog: product,
             ).wh(120, 45),
           ],
         ).p32(),

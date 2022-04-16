@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:music_rental_flutter/core/store.dart';
 import 'package:music_rental_flutter/network/network_service.dart';
 import 'package:music_rental_flutter/pages/homepage/user/user_home.dart';
 import 'package:music_rental_flutter/pages/login/components/login_provider.dart';
@@ -10,11 +11,17 @@ import 'package:music_rental_flutter/pages/signup/components/signup_auth-provide
 import 'package:music_rental_flutter/pages/static/static_values.dart';
 import 'package:music_rental_flutter/pages/verification/components/verification_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 final storage = FlutterSecureStorage();
 
 void main() async {
-  runApp(const MyApp());
+  runApp(
+    VxState(
+      store: MyStore(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

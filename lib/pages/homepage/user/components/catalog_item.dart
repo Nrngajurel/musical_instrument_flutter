@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:music_rental_flutter/pages/homepage/user/components/product_image.dart';
-import 'package:music_rental_flutter/pages/models/cart.dart';
 import 'package:music_rental_flutter/pages/models/product.dart';
 import 'package:music_rental_flutter/pages/static/static_values.dart';
+import 'package:music_rental_flutter/widgets/add_to_cart.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CatalogItem extends StatelessWidget {
@@ -34,7 +34,7 @@ class CatalogItem extends StatelessWidget {
                   buttonPadding: EdgeInsets.zero,
                   children: [
                     "\$${product.price}".text.bold.lg.make(),
-                    _AddToCart(catalog: product),
+                    AddToCart(catalog: product),
                   ],
                 ).pOnly(right: 8.0),
               ],
@@ -43,38 +43,5 @@ class CatalogItem extends StatelessWidget {
         ],
       ),
     ).white.rounded.square(120).make().py12();
-  }
-}
-
-class _AddToCart extends StatefulWidget {
-  final Product catalog;
-  const _AddToCart({Key? key, required this.catalog}) : super(key: key);
-
-  @override
-  State<_AddToCart> createState() => _AddToCartState();
-}
-
-class _AddToCartState extends State<_AddToCart> {
-  bool isAdded = false;
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        isAdded = isAdded.toggle();
-        final _catalog = CatalogModel();
-        final _cart = CartModel();
-        _cart.catalog = _catalog;
-        _cart.add(widget.catalog);
-        setState(() {});
-      },
-      style: ButtonStyle(
-        backgroundColor:
-            MaterialStateProperty.all(StaticValues.darkBluishColor),
-        shape: MaterialStateProperty.all(
-          const StadiumBorder(),
-        ),
-      ),
-      child: isAdded ? Icon(Icons.done) : "Add to cart".text.make(),
-    );
   }
 }
