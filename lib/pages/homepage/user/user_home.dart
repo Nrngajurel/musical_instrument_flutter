@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:music_rental_flutter/pages/homepage/user/components/cart_page.dart';
 import 'package:music_rental_flutter/pages/homepage/user/components/product_list.dart';
 import 'package:music_rental_flutter/pages/homepage/user/components/user_home_header.dart';
 import 'package:music_rental_flutter/pages/models/product.dart';
@@ -38,6 +39,20 @@ class _UserHomePageState extends State<UserHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: StaticValues.creamColor,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const CartPage(),
+              ),
+            );
+          },
+          backgroundColor: StaticValues.darkBluishColor,
+          child: const Icon(
+            Icons.shopping_cart_checkout_sharp,
+          ),
+        ),
         drawer: const BuildDrawer(),
         body: SafeArea(
           child: Container(

@@ -10,7 +10,13 @@ class HomeDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        iconTheme: IconThemeData(
+          color: StaticValues.darkBluishColor,
+        ),
+      ),
       backgroundColor: StaticValues.creamColor,
       bottomNavigationBar: Container(
         color: Colors.white,
@@ -28,8 +34,8 @@ class HomeDetailPage extends StatelessWidget {
                   const StadiumBorder(),
                 ),
               ),
-              child: "Buy".text.make(),
-            ).wh(80, 40),
+              child: "Add to cart".text.make(),
+            ).wh(120, 45),
           ],
         ).p32(),
       ),

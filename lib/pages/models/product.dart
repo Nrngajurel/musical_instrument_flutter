@@ -1,7 +1,14 @@
-import 'package:flutter/foundation.dart';
-
 class CatalogModel {
+  static final catalogModel = CatalogModel._internal();
+  CatalogModel._internal();
+  factory CatalogModel() => catalogModel;
+
   static List<Product> products = [];
+
+  Product getById(int id) =>
+      products.firstWhere((element) => element.id == id, orElse: null);
+
+  Product getByPosition(int pos) => products[pos];
 }
 
 class Product {
