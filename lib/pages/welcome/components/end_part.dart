@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_rental_flutter/pages/login/admin_login.dart';
 import 'package:music_rental_flutter/pages/login/login_page.dart';
 import 'package:music_rental_flutter/pages/signup/signup_page.dart';
 import 'package:music_rental_flutter/widgets/my_button.dart';
@@ -24,7 +25,12 @@ class EndPart extends StatelessWidget {
           height: 20,
         ),
         MyButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AdminLogin()),
+            );
+          },
           btnText: "ADMIN LOGIN",
           color: const [
             Color.fromARGB(255, 3, 84, 138),

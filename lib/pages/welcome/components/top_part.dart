@@ -13,7 +13,7 @@ class TopPart extends StatelessWidget {
             Text(
               "Welcome to Music Rental",
               style: TextStyle(
-                fontSize: 27,
+                fontSize: 25,
                 fontWeight: FontWeight.bold,
               ),
             ),

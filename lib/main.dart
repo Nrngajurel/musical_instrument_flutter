@@ -6,12 +6,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:music_rental_flutter/core/store.dart';
 import 'package:music_rental_flutter/network/network_service.dart';
 import 'package:music_rental_flutter/pages/homepage/user/user_home.dart';
+import 'package:music_rental_flutter/pages/login/components/admin_login_provider.dart';
 import 'package:music_rental_flutter/pages/login/components/login_provider.dart';
 import 'package:music_rental_flutter/pages/signup/components/signup_auth-provider.dart';
 import 'package:music_rental_flutter/pages/static/static_values.dart';
 import 'package:music_rental_flutter/pages/verification/components/verification_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import 'pages/welcome/welcome_page.dart';
 
 final storage = FlutterSecureStorage();
 
@@ -65,6 +68,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => LoginProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => AdminLoginProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -82,18 +88,16 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.deepPurple,
         ),
-        home:
-            // FutureBuilder<bool>(
-            //   future: verifyToken(),
-            //   builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-            //     if (snapshot.data == false) {
-            //       return const WelcomePage();
-            //     } else {
-            //       return const UserHomePage();
-            //     }
-            //   },
-            // ),
-            const UserHomePage(),
+        home: FutureBuilder<bool>(
+          future: verifyToken(),
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            if (snapshot.data == false) {
+              return const WelcomePage();
+            } else {
+              return const UserHomePage();
+            }
+          },
+        ),
       ),
     );
   }
