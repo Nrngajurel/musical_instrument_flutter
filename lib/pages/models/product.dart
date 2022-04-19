@@ -1,3 +1,5 @@
+import 'package:music_rental_flutter/pages/static/static_values.dart';
+
 class CatalogModel {
   static List<Product> products = [];
 
@@ -25,9 +27,9 @@ class Product {
     return Product(
       id: map["id"],
       name: map["name"],
-      desc: map["desc"],
+      desc: map["description"],
       price: map["price"],
-      image: map["image"],
+      image: map["image"] ?? StaticValues.defaultImage,
     );
   }
 

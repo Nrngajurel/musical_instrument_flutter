@@ -1,10 +1,40 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:music_rental_flutter/pages/homepage/user/components/cart_page.dart';
+import 'package:music_rental_flutter/pages/homepage/user/orders.dart';
+import 'package:music_rental_flutter/pages/homepage/user/profile.dart';
+import 'package:music_rental_flutter/pages/homepage/user/user_home.dart';
 import 'package:music_rental_flutter/pages/login/login_page.dart';
+
+import 'package:velocity_x/velocity_x.dart';
 
 import '../main.dart';
 
-class BuildDrawer extends StatelessWidget {
+final storage = FlutterSecureStorage();
+
+class BuildDrawer extends StatefulWidget {
   const BuildDrawer({Key? key}) : super(key: key);
+
+  @override
+  State<BuildDrawer> createState() => _BuildDrawerState();
+}
+
+class _BuildDrawerState extends State<BuildDrawer> {
+  // var user = {"name": "John Doe", "email": "nrngajurel@gmail.com"};
+  var user = {};
+
+  // @override
+  // Future<void> initState() async {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   var newuser = await storage.read(key: "user");
+  //   if (newuser != null) {
+  //     jsonData=user
+  //     user.addAll();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -12,37 +42,49 @@ class BuildDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const UserAccountsDrawerHeader(
+          const DrawerHeader(
             decoration: BoxDecoration(
               color: Colors.purple,
             ),
-            accountName: Text("Shanand Shrestha"),
-            accountEmail: Text("shanandshrestha@gmail.com"),
-            currentAccountPicture: CircleAvatar(
-              backgroundImage: AssetImage("assets/images/logo.png"),
-            ),
+            child: null,
           ),
-          const ListTile(
+          ListTile(
             leading: Icon(
               Icons.home,
             ),
             title: Text("Home"),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UserHomePage()));
+            },
           ),
-          const ListTile(
+          ListTile(
             leading: Icon(
               Icons.person,
             ),
             title: Text("Profile"),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UserProfile()));
+            },
           ),
-          const ListTile(
+          ListTile(
             leading: Icon(Icons.shopping_cart),
             title: Text("Cart"),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => CartPage()));
+            },
           ),
-          const ListTile(
-            leading: Icon(
+          ListTile(
+            leading: const Icon(
               Icons.shopping_basket,
             ),
-            title: Text("My Order"),
+            title: const Text("My Order"),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => CustomerOrder()));
+            },
           ),
           ListTile(
             onTap: () {
@@ -60,6 +102,5 @@ class BuildDrawer extends StatelessWidget {
         ],
       ),
     );
-    ;
   }
 }

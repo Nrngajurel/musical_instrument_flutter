@@ -10,8 +10,8 @@ import '../main.dart';
 
 final storage = FlutterSecureStorage();
 
-class AdminDrawer extends StatelessWidget {
-  const AdminDrawer({Key? key}) : super(key: key);
+class CustomerDrawer extends StatelessWidget {
+  const CustomerDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

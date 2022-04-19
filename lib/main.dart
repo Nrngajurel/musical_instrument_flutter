@@ -13,7 +13,6 @@ import 'package:music_rental_flutter/pages/static/static_values.dart';
 import 'package:music_rental_flutter/pages/verification/components/verification_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
-
 import 'pages/welcome/welcome_page.dart';
 
 final storage = FlutterSecureStorage();
@@ -39,11 +38,12 @@ class MyApp extends StatelessWidget {
   Future<bool> verifyToken() async {
     String jwt = await jwtOrEmpty;
     if (jwt == "") return false;
-    final response = await NetworkService.sendRequest(
+    final response = await NetworkService.sendAuthRequest(
       requestType: RequestType.post,
       url: StaticValues.apiUrlUser + "/token",
       body: {"token": jwt},
     );
+
     final resultMap = json.decode(response!.body);
     if (resultMap["success"] == 0) {
       return false;
@@ -77,15 +77,6 @@ class MyApp extends StatelessWidget {
         title: 'Music Rental',
         theme: ThemeData(
           fontFamily: GoogleFonts.poppins().fontFamily,
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
           primarySwatch: Colors.deepPurple,
         ),
         home: FutureBuilder<bool>(

@@ -44,3 +44,11 @@ class RemoveMutation extends VxMutation<MyStore> {
     store!.cart!._productIds.remove(product.id);
   }
 }
+
+// remove all items from cart
+class RemoveAllMutation extends VxMutation<MyStore> {
+  @override
+  perform() {
+    store!.cart!._productIds.clear();
+  }
+}

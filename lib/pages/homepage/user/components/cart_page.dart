@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:music_rental_flutter/core/store.dart';
+import 'package:music_rental_flutter/main.dart';
+import 'package:music_rental_flutter/network/network_service.dart';
+import 'package:music_rental_flutter/pages/homepage/user/user_home.dart';
 import 'package:music_rental_flutter/pages/models/cart.dart';
 import 'package:music_rental_flutter/pages/static/static_values.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+final storage = FlutterSecureStorage();
 
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -36,6 +42,7 @@ class _CartTotal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CartModel _cart = VxState.store.cart;
+    VxState.watch(context, on: [RemoveAllMutation]);
     return SizedBox(
       height: 200,
       child: Row(
@@ -53,18 +60,29 @@ class _CartTotal extends StatelessWidget {
           ),
           30.widthBox,
           ElevatedButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: "Buying not supported yet.".text.make(),
-                ),
-              );
+            onPressed: () async {
+              for (var element in _cart.products) {
+                NetworkService.sendAuthRequest(
+                    requestType: RequestType.post,
+                    url: StaticValues.apiUrlOrder,
+                    body: {
+                      "orderDate": DateTime.now().toString(),
+                      "customerId": await storage.read(key: "customer_id"),
+                      "productId": element.id,
+                    });
+              }
+              // empty cart
+              RemoveAllMutation();
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => const UserHomePage()));
             },
             style: ButtonStyle(
               backgroundColor:
                   MaterialStateProperty.all(StaticValues.darkBluishColor),
             ),
-            child: "Buy".text.white.make(),
+            child: "Place Order".text.white.make(),
           ).w32(context)
         ],
       ),

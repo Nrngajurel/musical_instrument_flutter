@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:music_rental_flutter/pages/homepage/admin/admin_home.dart';
 import 'package:music_rental_flutter/pages/login/admin_login.dart';
+import 'package:music_rental_flutter/pages/models/product.dart';
 import 'package:music_rental_flutter/pages/static/static_values.dart';
 import 'package:music_rental_flutter/widgets/my_button.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -12,15 +13,16 @@ import 'package:http/http.dart' as http;
 
 const storage = FlutterSecureStorage();
 
-class AddProduct extends StatefulWidget {
-  const AddProduct({Key? key}) : super(key: key);
+class EditProduct extends StatefulWidget {
+  final Product product;
+  const EditProduct({Key? key, required this.product}) : super(key: key);
 
   @override
-  State<AddProduct> createState() => _AddProductState();
+  State<EditProduct> createState() => _EditProductState();
 }
 
-class _AddProductState extends State<AddProduct> {
-  late File _image = File("assets/images/logo.png");
+class _EditProductState extends State<EditProduct> {
+  late File _image = File("assets/image/logo.png");
   // load placeholder image form Network
   final ImagePicker imagePicker = ImagePicker();
   TextEditingController name = TextEditingController();
@@ -30,8 +32,6 @@ class _AddProductState extends State<AddProduct> {
   @override
   void initState() {
     super.initState();
-    // if token not exist
-    // redirect to login widget
     storage.read(key: "userToken").then((token) {
       if (token == null) {
         Navigator.push(
@@ -41,6 +41,10 @@ class _AddProductState extends State<AddProduct> {
             ));
       }
     });
+    name.text = widget.product.name;
+    desc.text = widget.product.desc;
+    price.text = widget.product.price.toString();
+    _image = File(StaticValues.host + widget.product.image);
   }
 
   Future chooseImage() async {
@@ -51,10 +55,10 @@ class _AddProductState extends State<AddProduct> {
     });
   }
 
-  uploadProduct() async {
+  updateProduct() async {
     final uri = Uri.parse(StaticValues.apiUrlProduct);
     // request with token
-    var request = http.MultipartRequest('POST', uri);
+    var request = http.MultipartRequest('PATCH', uri);
     if (name.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -76,11 +80,8 @@ class _AddProductState extends State<AddProduct> {
     } else {
       request.headers['Authorization'] =
           'Bearer ${await storage.read(key: 'userToken')}';
-      // request.fields['name'] = name.text;
-      // request.fields['desc'] = desc.text;
-      // request.fields['price'] = price.text;
-
       request.fields.addAll({
+        'id': widget.product.id.toString(),
         'name': name.text,
         'desc': desc.text,
         'price': price.text,
@@ -97,14 +98,16 @@ class _AddProductState extends State<AddProduct> {
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: "Products Added".text.make(),
+            content: "Products Updated".text.make(),
           ),
         );
-        // reset data
-        name.text = "";
-        desc.text = "";
-        price.text = "";
-        _image = File("assets/images/logo.png");
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AdminHome(),
+          ),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -125,7 +128,7 @@ class _AddProductState extends State<AddProduct> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              "Add Product".text.xl3.makeCentered(),
+              "Edit Product".text.xl3.makeCentered(),
               const SizedBox(
                 height: 20,
               ),
@@ -154,8 +157,9 @@ class _AddProductState extends State<AddProduct> {
                 icon: const Icon(Icons.camera),
               ),
               Container(
-                child: _image.path == "assets/images/logo.png"
-                    ? Image.asset("assets/images/logo.png")
+                // if image path contain http image.network otherwise image file or default image form assets
+                child: _image == null
+                    ? Image.asset("assets/image/logo.png")
                     : _image.path.contains("http")
                         ? Image.network(_image.path)
                         : Image.file(_image),
@@ -165,9 +169,9 @@ class _AddProductState extends State<AddProduct> {
               ),
               MyButton(
                 onPressed: () {
-                  uploadProduct();
+                  updateProduct();
                 },
-                btnText: "Add Product",
+                btnText: "Update Product",
                 color: const [Color(0xff027f47), Color(0xff01a95c)],
               ),
             ],

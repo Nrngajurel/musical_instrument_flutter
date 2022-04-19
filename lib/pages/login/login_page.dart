@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:music_rental_flutter/pages/login/components/login_provider.dart';
 import 'package:music_rental_flutter/widgets/my_button.dart';
 import 'package:provider/provider.dart';
+
+final storage = FlutterSecureStorage();
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

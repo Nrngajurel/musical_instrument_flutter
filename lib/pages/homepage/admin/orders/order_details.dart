@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:music_rental_flutter/pages/models/product.dart';
+import 'package:music_rental_flutter/pages/models/orders.dart';
 import 'package:music_rental_flutter/pages/static/static_values.dart';
 import 'package:music_rental_flutter/widgets/add_to_cart.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class HomeDetailPage extends StatelessWidget {
-  final Product product;
-  const HomeDetailPage({Key? key, required this.product}) : super(key: key);
+class OrderDetailPage extends StatelessWidget {
+  final Order order;
+  const OrderDetailPage({Key? key, required this.order}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +25,7 @@ class HomeDetailPage extends StatelessWidget {
           alignment: MainAxisAlignment.spaceBetween,
           buttonPadding: EdgeInsets.zero,
           children: [
-            "\$${product.price}".text.bold.xl2.red800.make(),
-            AddToCart(
-              catalog: product,
-            ).wh(120, 45),
+            "\$${order.product_price}".text.bold.xl2.red800.make(),
           ],
         ).p32(),
       ),
@@ -37,8 +34,8 @@ class HomeDetailPage extends StatelessWidget {
         child: Column(
           children: [
             Hero(
-              tag: Key(product.id.toString()),
-              child: Image.network(StaticValues.host + product.image),
+              tag: Key(order.id.toString()),
+              child: Image.network(StaticValues.host + order.product_image),
             ).h40(context),
             Expanded(
               child: VxArc(
@@ -50,11 +47,27 @@ class HomeDetailPage extends StatelessWidget {
                   width: context.screenWidth,
                   child: Column(
                     children: [
-                      product.name.text.xl3
+                      order.product_name.text.xl3
                           .color(StaticValues.darkBluishColor)
                           .bold
                           .make(),
-                      product.desc.text.lg.color(Colors.grey).make(),
+                      order.product_name.text.lg
+                          .color(StaticValues.darkBluishColor)
+                          .bold
+                          .make(),
+                      "order by:".text.make(),
+                      order.customer_name.text.sm
+                          .color(StaticValues.darkBluishColor)
+                          .bold
+                          .make(),
+                      order.order_date
+                          .toDate()
+                          .toString()
+                          .text
+                          .sm
+                          .color(Colors.greenAccent)
+                          .bold
+                          .make(),
                     ],
                   ).py64(),
                 ),
